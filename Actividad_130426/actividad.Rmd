@@ -1,7 +1,7 @@
 ---
 title: "🔬 El Caso del microbioma misterioso"
 subtitle: "Análisis crítico con phyloseq — atlas1006"
-author: "Diego Puente Rivera"
+author: "Tu nombre aquí"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -60,7 +60,7 @@ Solo con lo que ves en el output anterior:
 > **¿Cuántos taxa, cuántas muestras y cuántas variables de muestra contiene este objeto? ¿Qué componentes del objeto phyloseq estándar están PRESENTES y cuáles AUSENTES?**
 
 ```         
-Tiene 130 taxas y 1151 muestras. 
+# TU RESPUESTA (escribe aquí, no en respuestas_reflexion.md):
 ```
 
 ## 1.2 La trampa del árbol filogenético
@@ -71,9 +71,7 @@ El estudiante anterior dejó este comentario en el código:
 # TODO: calcular distancias UniFrac para el análisis de diversidad beta
 ```
 
-distancias_unifrac \<- distance(atlas1006, method = "unifrac")
-
-```{r trampa-unifrac, eval=TRUE}
+```{r trampa-unifrac, eval=FALSE}
 # ¿Qué sucede si ejecutas este código? Pruébalo (cambia eval=FALSE a eval=TRUE).
 # ANTES de ejecutarlo, escribe tu predicción abajo.
 distancias_unifrac <- distance(atlas1006, method = "unifrac")
@@ -84,7 +82,7 @@ distancias_unifrac <- distance(atlas1006, method = "unifrac")
 > **Predice: ¿funcionará este código? ¿Por qué sí o por qué no? Conecta tu respuesta con lo que observaste en 1.1.**
 
 ```         
-# TU PREDICCIÓN: No funcionará el código porque el objeto o la base de datos no es un árbol.
+# TU PREDICCIÓN:
 ```
 
 **Pregunta 1.2b** — DESPUÉS de correr el chunk:
@@ -92,14 +90,7 @@ distancias_unifrac <- distance(atlas1006, method = "unifrac")
 > **¿Qué error obtuviste? ¿Cómo lo interpretarías a un colaborador que no conoce phyloseq? Propón UNA alternativa de distancia que sí funcione con este objeto y justifica tu elección.**
 
 ```         
-# TU RESPUESTA: 
-> Error en access(physeq, "phy_tree", errorIfNULL): 
-  phy_tree slot is empty.
-Como mencioné el error era ese, para corregirlo se puede usar un euclidiano porque  
-```
-
-```{r}
-distancias_unifrac <- distance(atlas1006, method = "manhattan")
+# TU RESPUESTA:
 ```
 
 ## 1.3 Explorando la metadata
@@ -113,7 +104,6 @@ head(sample_data(atlas1006))
 # Cuenta cuántas muestras hay por grupo de IMC (bmi_group)
 # TU CÓDIGO AQUÍ (una línea es suficiente):
 
-summary(sample_data(atlas1006)$bmi_group)
 ```
 
 **Pregunta 1.3** — Observa la distribución de muestras por `bmi_group`:
@@ -122,7 +112,6 @@ summary(sample_data(atlas1006)$bmi_group)
 
 ```         
 # TU RESPUESTA:
-No están balanceados, principalmente se viola el supuesto de homogeneidad de varianzas, lo que directamente va a sesgar o a limitar los análisis que podamos hacer.
 ```
 
 ------------------------------------------------------------------------
@@ -153,25 +142,14 @@ ntaxa(ps_filtrado)
 
 ```         
 # TU RESPUESTA:
-1. No hará lo que el estudiante quiere porque prune es el "switch" para que pase o no por el filtro, y como está en el código no se aplicará el filtro.
-
-2. Este umbral es muy bajo, nos daría como 115.1 muestras, cosa que no serviría para un análisis serio.
 ```
 
 ```{r error-1-corregido}
 # Ahora escribe la versión CORREGIDA del código:
 # TU CÓDIGO AQUÍ:
-ps_filtrado <- filter_taxa(atlas1006,
-                           function(x) sum(x > 0) > (0.5 * length(x)),
-                           prune = T)   # <-- ¿Notas algo raro aquí?
-ntaxa(ps_filtrado)
+
 
 # Imprime cuántos taxa quedan y compara con ntaxa(atlas1006)
-#    Dan 130 con ntaxa original, está relativamente cercano.
-```
-
-```{r}
-ntaxa(atlas1006)
 ```
 
 ## 2.2 Error en la transformación de datos
@@ -194,17 +172,13 @@ head(alpha_div)
 
 ```         
 # TU RESPUESTA:
-Las abundancias relativas no nos dejan ver la rarefacción que hay en el muestreo. 
-No afectaría de la misma forma porque el índice de chao nos dice las especies no muestreadas por medio de singletones y doubletones, entonces relativizar haría que no se pudieran ver estos valores. 
 ```
 
 ```{r error-2-corregido}
 # Escribe la versión correcta (diversidad alfa con el objeto apropiado):
 # TU CÓDIGO AQUÍ:
 
-# Paso 2: Calcular diversidad alfa (Shannon)
-alpha_div <- estimate_richness(atlas1006, measures = "Shannon")
-head(alpha_div)
+
 ```
 
 ## 2.3 Error en la visualización de composición
@@ -224,7 +198,6 @@ plot_bar(ps_phylum, x = "Sample", fill = "Phylum") +
 
 ```         
 # TU RESPUESTA:
-No están distribuidos de forma homogenea
 ```
 
 ```{r error-3-corregido}
@@ -254,7 +227,6 @@ head(alpha_todas)
 
 ```         
 # TU JUSTIFICACIÓN (escríbela ANTES de correr el siguiente chunk):
-El inverso de Fishers porque puede capturar bien la rareza  
 ```
 
 ```{r alpha-figura}
